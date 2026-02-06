@@ -1,22 +1,51 @@
 package org.crudprojedata;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import java.util.List;
 
-@Entity
-public class ProductMaterial extends PanacheEntity{
+@Path("/materials")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class MaterialResource {
 
-    @ManyToOne
-    @JoinCollumn(name = "product_id")
-    @Jsonignore
-    public Product product;
+    @GET
+    public List<Material> listAll() {
+        return Material.listAll();
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "material_id")
-    public Material material;
+    @POST
+    @Transactional
+    public Response create(Material material) {
+        material.persist();
+        return Response.status(Response.Status.CREATED).entity(material).build();
+    }
 
-    public Integer quantityNeeded;
+    @PUT
+    @Path("/{id}")
+    @Transactional
+    public Material update(@PathParam("id") Long id, Material material) {
+        Material entity = Material.findById(id);
+
+        if (entity == null) {
+            throw new NotFoundException("Material não encontrado");
+        }
+
+        entity.name = material.name;
+        entity.stockQuantity = material.stockQuantity;
+        return entity;
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Transactional
+    public void delete(@PathParam("id") Long id) {
+        boolean deleted = Material.deleteById(id);
+
+        if (!deleted) {
+            throw new NotFoundException("Material não encontrado");
+        }
+    }
 }

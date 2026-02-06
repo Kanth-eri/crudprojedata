@@ -1,10 +1,13 @@
+# Template de Configuração da Base de Dados
 quarkus.datasource.db-kind=mysql
-quarkus.datasource.db-username=projedata
-quarkus.datasource.db-password=12345678
-quarkus.datasource.jdbc:mysql://localhost:3306/crudprojedata
+quarkus.datasource.username=SEU_USUARIO
+quarkus.datasource.password=SUA_SENHA
+quarkus.datasource.jdbc.url=jdbc:mysql://localhost:3306/NOME_DO_BANCO
 
+# Configurações do Hibernate
 quarkus.hibernate-orm.database.generation=update
 quarkus.hibernate-orm.log.sql=true
 
-quarkus.https.cors=true
-quarkus.https.cors.origins=https://localhost:5173
+# CORS
+quarkus.http.cors=true
+quarkus.http.cors.origins=http://localhost:5173

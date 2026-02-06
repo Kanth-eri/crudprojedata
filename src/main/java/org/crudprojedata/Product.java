@@ -12,6 +12,6 @@ public class Product extends PanacheEntity{
     public String name;
     public Double price;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL = orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<ProductMaterial> materials = new ArrayList<>();
 }

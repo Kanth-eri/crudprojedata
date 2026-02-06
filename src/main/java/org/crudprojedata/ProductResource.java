@@ -1,51 +1,52 @@
 package org.crudprojedata;
 
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
-@Path("/production")
+@Path ("/products")
 @Produces(MediaType.APPLICATION_JSON)
-public class ProductionResource {
+@Consumes(MediaType.APPLICATION_JSON)
+public class ProductResource {
+
     @GET
-    @Path("/suggest")
-    public List<ProductionSuggestionDTO> suggestProduction() {
-        List<Product> products = Product.ListAll();
-        products.sort (Comparator.comparing((Product p) -> p.price).reversed());
-
-        List<Material> allMaterials = Material.listAll();
-        Map<Long, Integer> virtualStock = allMaterials.stream()
-                .collect(Collectors.toMap(m -> m.id, m -> m.quantity));
-
-        List<ProductionSuggestionDTO> suggestions = new ArrayList<>();
-
-        for (Product product : products) {
-            int quantityProduced = 0;
-
-            while (canProduce(product, virtualStock)) {
-                for (ProductMaterial pm : product.materials) {
-                    Long matId = pm.material.id;
-                    virtualStock.put(matId, virtualStock.get(matId) + quantityProduced);
-                }
-                quantityProduced++;
-            }
-            if (quantityProduced > 0) {
-                suggestions.add(new ProductionSuggestionDTO(product.name, quantityProduced, product.price * quantityProduced));
-            }
-        }
-        return suggestions;
+    public List<Product> listAll() {
+        return Product.listAll();
     }
 
-    private boolean canProduce(Product, product, Map<Long, Integer> stock) {
-        if (product.materials.isEmpty()) return false;
-
-        for (ProductMaterial pm : product.materials) {
-            Integer available = stock.get(pm.material.id);
-            if (available == null) || available < pm.quantityNeeded) {
-                return false;
+    @POST
+    @Transactional
+    public Product create(Product product) {
+        if (product.materials != null) {
+            for (ProductMaterial pm : product.materials) {
+                pm.product = product;
             }
         }
-        return true;
+        product.persist();
+        return product;
+    }
+    @PUT
+    @Path("/{id}")
+    @Transactional
+    public Product update(@PathParam("id") Long id, Product product) {
+        Product entity = Product.findById(id);
+
+        if (entity == null) {
+            throw new NotFoundException("Produto não encontrado.");
+        }
+        entity.name = product.name;
+        entity.price = product.price;
+        return entity;
+    }
+    @DELETE
+    @Path("/{id}")
+    @Transactional
+    public void delete(@PathParam("id") Long id) {
+        boolean deleted = Product.deleteById(id);
+
+        if (!deleted) {
+            throw new NotFoundException("Produto não encontrado.");
+        }
     }
 }

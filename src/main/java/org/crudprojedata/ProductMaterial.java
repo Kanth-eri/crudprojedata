@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ProductMaterial extends PanacheEntity{
 
     @ManyToOne
-    @JoinCollumn(name = "product_id")
-    @Jsonignore
+    @JoinColumn(name = "product_id")
+    @JsonIgnore
     public Product product;
 
     @ManyToOne
