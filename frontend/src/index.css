@@ -1,68 +1,132 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* Industrial Design System - Steel Blue & Orange Accent */
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    --primary: 215 70% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 15% 93%;
+    --secondary-foreground: 215 25% 25%;
+
+    --muted: 210 15% 95%;
+    --muted-foreground: 215 15% 45%;
+
+    --accent: 25 95% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 70% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 45 93% 47%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 214 20% 88%;
+    --input: 214 20% 88%;
+    --ring: 215 70% 45%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 215 30% 18%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 25 95% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 30% 25%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 215 25% 25%;
+    --sidebar-ring: 25 95% 55%;
+
+    /* Industrial gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(215 70% 45%), hsl(215 70% 35%));
+    --gradient-accent: linear-gradient(135deg, hsl(25 95% 55%), hsl(25 95% 45%));
+    --gradient-dark: linear-gradient(180deg, hsl(215 30% 18%), hsl(215 30% 12%));
   }
-  a:hover {
-    color: #747bff;
+
+  .dark {
+    --background: 215 30% 10%;
+    --foreground: 210 20% 95%;
+
+    --card: 215 30% 14%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 215 30% 14%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 215 70% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 25% 22%;
+    --secondary-foreground: 210 20% 90%;
+
+    --muted: 215 25% 20%;
+    --muted-foreground: 215 15% 60%;
+
+    --accent: 25 95% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 70% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 215 25% 22%;
+    --input: 215 25% 22%;
+    --ring: 215 70% 55%;
+
+    --sidebar-background: 215 30% 8%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 25 95% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 30% 15%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 215 30% 15%;
+    --sidebar-ring: 25 95% 55%;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .industrial-card {
+    @apply bg-card rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+
+  .industrial-header {
+    @apply bg-gradient-to-r from-primary to-primary/90 text-primary-foreground;
+  }
+
+  .data-table-row {
+    @apply border-b transition-colors hover:bg-muted/50;
+  }
+
+  .stat-card {
+    @apply bg-card rounded-xl border p-6 shadow-sm;
   }
 }

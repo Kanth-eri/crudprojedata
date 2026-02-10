@@ -1,3 +1,5 @@
+// Backend API Types matching Quarkus entities
+
 export interface Material {
   id: number;
   name: string;
@@ -23,6 +25,7 @@ export interface ProductionSuggestion {
   totalValue: number;
 }
 
+// Form types for creating/updating
 export interface MaterialFormData {
   name: string;
   stockQuantity: number;
